@@ -1,0 +1,911 @@
+/* ---------- Theme variables ---------- */
+
+/* Light theme (default) */
+:root {
+  --bg: #EDE7D9;              /* Soft Linen */
+  --surface: #F7F3EA;         /* slightly lighter band / card background */
+  --text: #130303;            /* Coffee Bean */
+  --muted: #5C4E4B;           /* secondary text */
+  --accent: #A30000;          /* Inferno - accents only */
+  --border: #A49694;          /* Rosy Granite */
+  --tag-bg: #D9D2E8;          /* soft Wisteria tint */
+  --photo-border: #8B95C9;    /* Wisteria Blue */
+  --btn-bg: #A30000;
+  --btn-text: #EDE7D9;
+
+  /* Floating navbar */
+  --pill-bg: rgba(247, 243, 234, 0.92);
+  --pill-text: #130303;
+  --pill-border: #A49694;
+
+  --shadow: 0 6px 20px rgba(19, 3, 3, 0.14);
+
+  /* Fonts */
+  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+}
+
+/* Dark theme (applied by script.js through data-theme="dark") */
+:root[data-theme="dark"] {
+  --bg: #130303;              /* Coffee Bean */
+  --surface: #221010;
+  --text: #EDE7D9;            /* Soft Linen */
+  --muted: #A49694;           /* Rosy Granite */
+  --accent: #8B95C9;          /* Wisteria Blue */
+  --border: #4A3434;
+  --tag-bg: #2E2A45;
+  --photo-border: #8B95C9;
+  --btn-bg: #A30000;
+  --btn-text: #EDE7D9;
+
+  --pill-bg: rgba(34, 16, 16, 0.92);
+  --pill-text: #EDE7D9;
+  --pill-border: #4A3434;
+
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Base / reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; /* fallback smooth scroll if JS fails */
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  line-height: 1.7;
+  color: var(--text);
+  background-color: var(--bg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+/* Centered content wrapper */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* Visible keyboard focus */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--photo-border);
+  outline-offset: 3px;
+}
+
+/* Icons inside links and buttons */
+.icon {
+  flex: none;
+  display: block;
+}
+
+/* ---------- Header / floating pill navigation ---------- */
+.site-header {
+  position: fixed;               /* stays on screen while scrolling */
+  top: 14px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 1rem;
+  pointer-events: none;          /* clicks pass through the empty sides */
+}
+
+.nav-pill {
+  position: relative;
+  display: flex;                 /* Flexbox: brand left, nav + toggle grouped on the right */
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0.5rem 0.6rem 0.5rem 1.4rem;
+  border: 1px solid var(--pill-border);
+  border-radius: 999px;
+  background-color: var(--pill-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  pointer-events: auto;
+}
+
+.brand {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--pill-text);
+  white-space: nowrap;
+}
+
+.brand:hover {
+  color: var(--accent);
+}
+
+/* margin-left: auto pushes the links to the right, next to the theme button */
+.site-nav {
+  margin-left: auto;
+}
+
+.nav-list {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: var(--pill-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover and "current section" highlight */
+.nav-link:hover,
+.nav-link.is-active {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Round icon buttons (theme toggle + hamburger) */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--pill-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--pill-text);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.icon-btn:hover {
+  background-color: var(--tag-bg);
+  transform: translateY(-2px);
+}
+
+/* Hamburger is hidden on desktop */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hamburger .bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background-color: var(--pill-text);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hamburger turns into an X when the menu is open */
+.hamburger.is-open .bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.is-open .bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.is-open .bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.6rem;
+  border: 2px solid var(--btn-bg);
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.btn-primary {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-small {
+  padding: 0.55rem 1.2rem;
+  font-size: 0.9rem;
+}
+
+/* ---------- Hero / About ---------- */
+.about {
+  padding: 8.5rem 0 5rem;       /* top padding clears the floating navbar */
+  background-color: var(--bg);
+}
+
+/* Grid: intro on the left, the two lists on the right */
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 3.5rem;
+  align-items: start;
+}
+
+/* Profile card: colored top, bio body, social strip at the bottom */
+.profile-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background-color: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.profile-top {
+  padding: 2.5rem 1.5rem 2rem;
+  background-color: var(--btn-bg);   /* Inferno */
+  color: var(--btn-text);            /* Soft Linen */
+}
+
+.profile-photo {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 1.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid var(--btn-text);
+  box-shadow: var(--shadow);
+}
+
+.profile-top .eyebrow {
+  color: var(--btn-text);
+  opacity: 0.8;
+}
+
+.intro .profile-top h1 {
+  margin-bottom: 0.9rem;
+}
+
+/* Short dashed line under the name */
+.profile-divider {
+  display: block;
+  width: 90px;
+  margin: 0 auto 1rem;
+  border-top: 4px dashed var(--btn-text);
+  opacity: 0.85;
+}
+
+.profile-top .tagline {
+  margin: 0;
+  color: var(--btn-text);
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.profile-body {
+  padding: 1.75rem 1.75rem 1.5rem;
+}
+
+.profile-body .bio {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-body .hero-buttons {
+  justify-content: center;
+}
+
+/* Social icon strip */
+.profile-socials {
+  display: flex;
+  justify-content: center;
+  gap: 1.75rem;
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  background-color: #FFFFFF;
+}
+
+.profile-social {
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.profile-social:hover {
+  transform: translateY(-3px);
+}
+
+/* Brand colors for each icon */
+.social-github   { color: #130303; }
+.social-linkedin { color: #0A66C2; }
+.social-facebook { color: #1877F2; }
+.social-youtube  { color: #FF0000; }
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+}
+
+.intro h1 {
+  font-size: clamp(2rem, 4.2vw, 3.1rem);
+}
+
+.tagline {
+  margin: 0 0 1.25rem;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.bio {
+  max-width: 560px;
+  margin: 0 0 0.9rem;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.25rem;
+}
+
+/* ---------- About: compact vertical lists (Skills + Experiences) ---------- */
+.info-column {
+  display: flex;                 /* Flexbox: the two cards stack vertically */
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.info-card {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background-color: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+/* Card label with a short accent line */
+.info-title {
+  position: relative;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.6rem;
+  font-size: 1.3rem;
+}
+
+.info-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--accent), transparent);
+}
+
+/* ---------- Experiences timeline ---------- */
+.timeline {
+  position: relative;
+  margin: 0;
+  padding-left: 1.6rem;
+  list-style: none;              /* no 1. 2. 3. numbering */
+}
+
+/* ---------- Skills ---------- */
+.skill-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Main skill groups are emphasized: bigger header + chips */
+.skill-group h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.15rem;
+  color: var(--text);
+}
+
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-chips li {
+  padding: 0.3rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: var(--tag-bg);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.skill-chips li:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+/* Soft skills are intentionally quieter */
+.skill-group--soft {
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+  opacity: 0.6;
+}
+
+.skill-group--soft h3 {
+  margin-bottom: 0.4rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+}
+
+/* Vertical line that fades out toward the bottom */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0.3rem;
+  bottom: 0;
+  left: 5px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+}
+
+.timeline-item {
+  position: relative;
+}
+
+.timeline-item + .timeline-item {
+  margin-top: 1.25rem;
+}
+
+/* Dot on the line; later entries fade like the line does */
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 0.2rem;
+  left: -1.6rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  border: 2px solid var(--surface);
+  box-sizing: border-box;
+}
+
+.timeline-item:nth-child(2)::before {
+  opacity: 0.65;
+}
+
+.timeline-item:nth-child(3)::before {
+  opacity: 0.35;
+}
+
+.timeline-item h3 {
+  margin: 0 0 0.15rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent);
+}
+
+.timeline-item p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.info-list > li + li {
+  margin-top: 0.75rem;
+}
+
+.info-list h3 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent);
+}
+
+.sub-list {
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.sub-list li {
+  position: relative;
+  padding-left: 1rem;
+}
+
+/* Small dot marker before each item */
+.sub-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--photo-border);
+}
+
+/* ---------- Section titles ---------- */
+.section-title {
+  position: relative;
+  padding-bottom: 0.75rem;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  text-align: center;
+}
+
+/* Short accent line under section titles */
+.section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  margin: 0.6rem auto 0;
+  border-radius: 2px;
+  background-color: var(--accent);
+}
+
+.section-subtitle {
+  margin: 0 0 2.5rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Tag chips (used for project tech) */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+}
+
+.tags li {
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  background-color: var(--tag-bg);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* ---------- Projects ---------- */
+.projects {
+  padding: 5rem 0;
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.project-list {
+  display: flex;                 /* Flexbox: cards stacked full-width */
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.card {
+  display: flex;                 /* Flexbox: image left, text right */
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background-color: var(--bg);
+  box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 14px 30px rgba(19, 3, 3, 0.22);
+}
+
+.card-media {
+  flex: 0 0 40%;
+  min-height: 260px;
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 2rem;
+}
+
+.card-body h3 {
+  font-size: 1.45rem;
+}
+
+.card-type {
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.card-body > p:not(.card-type) {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.card-links {
+  margin-top: 1.25rem;
+}
+
+/* "You are here" note (replaces the button on the portfolio card) */
+.here-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.here-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background-color: var(--accent);
+}
+
+/* ---------- Footer / Contact banner ---------- */
+.site-footer {
+  padding: 5rem 0 2rem;
+  background-color: var(--bg);
+  text-align: center;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-title {
+  font-size: clamp(2rem, 6vw, 3.25rem);
+}
+
+.contact-text {
+  max-width: 520px;
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+}
+
+.email-link {
+  display: inline-flex;          /* icon + address on one line */
+  align-items: center;
+  gap: 0.6rem;
+  font-size: clamp(1rem, 3.4vw, 1.5rem);
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  overflow-wrap: anywhere;       /* prevents the long email from overflowing */
+  transition: color 0.2s ease;
+}
+
+.email-link span {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 6px;
+}
+
+.email-link:hover {
+  color: var(--accent);
+}
+
+.social-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin: 2rem 0 3rem;
+}
+
+.social-btn {
+  display: inline-flex;          /* icon + label side by side */
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.4rem;
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.2s ease;
+}
+
+.social-btn:hover {
+  background-color: var(--btn-bg);
+  border-color: var(--btn-bg);
+  color: var(--btn-text);
+  transform: translateY(-3px);
+}
+
+.copyright {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Responsive: small laptops and tablets ---------- */
+@media (max-width: 900px) {
+
+  /* About stacks: intro first, lists below */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* ---------- Responsive: phones ---------- */
+@media (max-width: 768px) {
+
+  /* Show the hamburger button; keep it on the right of the pill */
+  .hamburger {
+    display: inline-flex;
+  }
+
+  .nav-pill {
+    justify-content: space-between;
+    padding-left: 1.1rem;
+  }
+
+  /* Nav becomes a rounded dropdown panel under the pill */
+  .site-nav {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    display: none;               /* hidden until script.js adds .is-open */
+    padding: 0.5rem;
+    border: 1px solid var(--pill-border);
+    border-radius: 24px;
+    background-color: var(--pill-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+  }
+
+  .site-nav.is-open {
+    display: block;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .nav-link {
+    padding: 0.8rem 1rem;
+    text-align: center;
+  }
+
+  /* About spacing */
+  .about {
+    padding: 7rem 0 3.5rem;
+  }
+
+  .profile-photo {
+    width: 170px;
+    height: 170px;
+  }
+
+  /* Project cards stack: image on top, text below */
+  .card {
+    flex-direction: column;
+  }
+
+  .card-media {
+    flex: none;
+    min-height: 0;
+  }
+
+  .card-media img {
+    height: auto;
+    aspect-ratio: 5 / 3;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 400px) {
+  .brand {
+    font-size: 1.05rem;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .social-btn {
+    padding: 0.6rem 1.1rem;
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    transition: none !important;
+  }
+}
